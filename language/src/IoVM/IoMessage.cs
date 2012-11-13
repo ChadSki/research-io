@@ -318,7 +318,7 @@ namespace io {
                 else
                 {
                     result = msg.cachedResult;
-                    if (result == null)
+                    if (result == null) //TODO investigate this hairy mess
                     {
                         //if (target.tag.performFunc == null)
                             result = target.perform(target, locals, msg);

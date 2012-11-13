@@ -661,10 +661,12 @@ done:
             if (slotValue == null)
                 slotValue = target.clrGetSlot(msg);
 	    	
+            // not an 'else' check, since slotValue could have changed
             if (slotValue != null)
 	    	{
                 return slotValue.activate(slotValue, target, locals, msg, context);
 	    	}
+
 	    	if (target.isLocals)
 	    	{
 	    		return IoObject.slotLocalsForward(target, locals, message);
