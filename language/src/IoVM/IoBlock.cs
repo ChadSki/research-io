@@ -76,7 +76,7 @@ namespace io
 	        for (i = 0; i < nargs - 1; i ++)
 	        {
 		        IoMessage argMessage = m.rawArgAt(i);
-		        IoSeq name = argMessage.messageName;
+		        IoString name = argMessage.messageName;
                 self.argNames.Add(name);
 	        }
 
@@ -103,15 +103,15 @@ namespace io
             int nargs = self.argNames.Count;
             for (int i = 0; i < nargs; i++)
             {
-                IoSeq name = self.argNames[i] as IoSeq;
+                IoString name = self.argNames[i] as IoString;
                 s += name.value + ", ";
             }
 
             IoMessage msg = self.containedMessage;
-            IoSeq seq = IoMessage.slotCode(msg, locals, m) as IoSeq;
+            IoString seq = IoMessage.slotCode(msg, locals, m) as IoString;
             s += seq.value + ")";
 
-            return IoSeq.createObject(target.state, s);
+            return IoString.createObject(target.state, s);
         }
 
         public static IoObject slotCall(IoObject target, IoObject locals, IoObject message)
@@ -150,7 +150,7 @@ namespace io
             if (argNames != null)
             for (int i = 0; i < argNames.Count; i++)
             {
-                IoSeq name = argNames[i] as IoSeq;
+                IoString name = argNames[i] as IoString;
                 IoObject arg = m.localsValueArgAt(locals, i);
                 blockLocals.slots[name] = arg;
             }

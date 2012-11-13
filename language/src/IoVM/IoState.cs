@@ -28,19 +28,19 @@ namespace io {
         public IoCLR clrProto;
 
 		// quick access objects
-		public IoSeq activateSymbol;
-        public IoSeq callSymbol;
-        public IoSeq forwardSymbol;
-        public IoSeq noShufflingSymbol;
-		public IoSeq opShuffleSymbol;
-		public IoSeq semicolonSymbol;
-		public IoSeq selfSymbol;
-		public IoSeq setSlotSymbol;
-		public IoSeq setSlotWithTypeSymbol;
-		public IoSeq stackSizeSymbol;
-		public IoSeq typeSymbol;
+		public IoString activateSymbol;
+        public IoString callSymbol;
+        public IoString forwardSymbol;
+        public IoString noShufflingSymbol;
+		public IoString opShuffleSymbol;
+		public IoString semicolonSymbol;
+		public IoString selfSymbol;
+		public IoString setSlotSymbol;
+		public IoString setSlotWithTypeSymbol;
+		public IoString stackSizeSymbol;
+		public IoString typeSymbol;
 
-		public IoSeq updateSlotSymbol;
+		public IoString updateSlotSymbol;
 		public IoObject setSlotBlock;
 		public IoObject localsUpdateSlotCFunc;
 		public IoObject localsProto;
@@ -103,9 +103,9 @@ namespace io {
 		public int shouldExit;
 		public int exitResult;
 
-        public IoSeq IOSYMBOL(string name)
+        public IoString IOSYMBOL(string name)
         {
-            return IoSeq.createSymbolInMachine(this, name);
+            return IoString.createSymbolInMachine(this, name);
         }
 
 		public void registerProtoWithFunc(string name, IoStateProto stateProto)
@@ -131,7 +131,7 @@ namespace io {
 			core = objectProto.clone(this);
 			lobby = objectProto.clone(this);
 
-            IoSeq seqProto = IoSeq.createProto(this);
+            IoString seqProto = IoString.createProto(this);
 
             setupSingletons();
             setupSymbols();
@@ -174,7 +174,7 @@ namespace io {
             core.slots["Call"] = callProto;
             core.slots["Locals"] = localsProto = objectProto.localsProto(this);
             core.slots["List"] = listProto;
-            core.slots["Sequence"] = seqProto;
+            core.slots["String"] = seqProto;
             core.slots["CLR"] = clrProto;
             core.slots["CLRAssembly"] = asmProto;
             core.slots["CLRObject"] = clrObjProto;

@@ -112,7 +112,7 @@ namespace io
 		{
 		}
 
-        // proto finish must be called only before first Sequence proto created
+        // proto finish must be called only before first String proto created
 
         public IoObject protoFinish(IoState state)
         {
@@ -299,7 +299,7 @@ namespace io
 
         public static IoObject slotType(IoObject target, IoObject locals, IoObject message)
         {
-			return IoSeq.createObject(target.state, target.name);
+			return IoString.createObject(target.state, target.name);
         }
 
         public static IoObject slotEevalArg(IoObject target, IoObject locals, IoObject message)
@@ -328,7 +328,7 @@ namespace io
         public static IoObject slotGetSlot(IoObject target, IoObject locals, IoObject message)
         {
             IoMessage m = message as IoMessage;
-            IoSeq slotName = m.localsSymbolArgAt(locals, 0);
+            IoString slotName = m.localsSymbolArgAt(locals, 0);
             IoObject slot = target.rawGetSlot(slotName);
             return slot == null ? target.state.ioNil : slot;
         }
@@ -336,7 +336,7 @@ namespace io
         public static IoObject slotSetSlot(IoObject target, IoObject locals, IoObject message)
         {
             IoMessage m = message as IoMessage;
-            IoSeq slotName = m.localsSymbolArgAt(locals, 0);
+            IoString slotName = m.localsSymbolArgAt(locals, 0);
             IoObject slotValue = m.localsValueArgAt(locals, 1);
             if (slotName == null) return target;
             target.slots[slotName] = slotValue;
@@ -346,7 +346,7 @@ namespace io
         public static IoObject localsUpdateSlot(IoObject target, IoObject locals, IoObject message)
         {
             IoMessage m = message as IoMessage;
-            IoSeq slotName = m.localsSymbolArgAt(locals, 0);
+            IoString slotName = m.localsSymbolArgAt(locals, 0);
             if (slotName == null) return target;
             IoObject obj = target.rawGetSlot(slotName);
             if (obj != null)
@@ -369,7 +369,7 @@ namespace io
         public static IoObject slotUpdateSlot(IoObject target, IoObject locals, IoObject message)
         {
             IoMessage m = message as IoMessage;
-            IoSeq slotName = m.localsSymbolArgAt(locals, 0);
+            IoString slotName = m.localsSymbolArgAt(locals, 0);
             IoObject slotValue = m.localsValueArgAt(locals, 1);
             if (slotName == null) return target;
 
@@ -388,7 +388,7 @@ namespace io
         public static IoObject slotSetSlotWithType(IoObject target, IoObject locals, IoObject message)
         {
             IoMessage m = message as IoMessage;
-            IoSeq slotName = m.localsSymbolArgAt(locals, 0);
+            IoString slotName = m.localsSymbolArgAt(locals, 0);
             IoObject slotValue = m.localsValueArgAt(locals, 1);
             target.slots[slotName] = slotValue;
             if (slotValue.slots[target.state.typeSymbol] == null)
@@ -728,14 +728,14 @@ done:
                 protos = new IoObjectArrayList();
         }
 
-		public IoObject slotsBySymbol(IoSeq symbol)
+		public IoObject slotsBySymbol(IoString symbol)
 		{
-            IoSeq s = this.state.symbols[symbol.value] as IoSeq;
+            IoString s = this.state.symbols[symbol.value] as IoString;
             if (s == null) return null;
             return slots[s] as IoObject;
 		}
 
-        public IoObject rawGetSlot(IoSeq slot)
+        public IoObject rawGetSlot(IoString slot)
         {
             IoObject context = null;
             IoObject v = rawGetSlotContext(slot, out context);
@@ -754,7 +754,7 @@ done:
             return v;
         }
 
-        public IoObject rawGetSlotContext(IoSeq slot, out IoObject context)
+        public IoObject rawGetSlotContext(IoString slot, out IoObject context)
         {
             if (slot == null)
             {
@@ -787,9 +787,9 @@ done:
 
 		public virtual void print()
 		{
-            //IoSeq type = this.slots["type"] as IoSeq;
+            //IoString type = this.slots["type"] as IoString;
 			//if (type == null)
-			//		type = (this.rawGetSlot(state.typeMessage.messageName) as IoCFunction).func(this, this, this) as IoSeq;
+			//		type = (this.rawGetSlot(state.typeMessage.messageName) as IoCFunction).func(this, this, this) as IoString;
             //string printedName = type == null ? ToString() : type.value;
 			Console.Write(this);
 		}

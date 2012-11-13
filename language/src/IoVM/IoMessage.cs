@@ -11,12 +11,12 @@ namespace io {
     {
         public bool async = false;
 		public override string name { get { return "Message"; } }
-        public IoSeq  messageName;
+        public IoString  messageName;
         public IoObjectArrayList args;
 		public IoMessage next;
 		public IoObject cachedResult;
 		public int lineNumber;
-		public IoSeq label;
+		public IoString label;
 
 		public new static IoMessage createProto(IoState state)
 		{
@@ -39,8 +39,8 @@ namespace io {
             pro.createSlots();
             pro.createProtos();
             pro.uniqueId = 0;
-            pro.messageName = IoSeq.createSymbolInMachine(state, "anonymous");
-            pro.label = IoSeq.createSymbolInMachine(state, "unlabeled");
+            pro.messageName = IoString.createSymbolInMachine(state, "anonymous");
+            pro.label = IoString.createSymbolInMachine(state, "unlabeled");
             pro.args = new IoObjectArrayList();
             state.registerProtoWithFunc(name, new IoStateProto(name, pro, new IoStateProtoFunc(this.proto)));
 			pro.protos.Add(state.protoWithInitFunc("Object"));
@@ -88,7 +88,7 @@ namespace io {
         {
             IoMessage self = target as IoMessage;
             IoMessage msg = message as IoMessage;
-            IoSeq s = msg.localsSymbolArgAt(locals, 0);
+            IoString s = msg.localsSymbolArgAt(locals, 0);
             self.messageName = s;
             return self;
         }
@@ -126,7 +126,7 @@ namespace io {
             IoMessage self = target as IoMessage;
             string s = ""; 
             s = self.descriptionToFollow(true);
-            return IoSeq.createObject(self.state, s);
+            return IoString.createObject(self.state, s);
         }
 
         public static IoObject slotArguments(IoObject target, IoObject locals, IoObject message)
@@ -193,7 +193,7 @@ namespace io {
 
         // Message Public Raw Methods
 
-        public static IoMessage newWithName(IoState state, IoSeq ioSymbol)
+        public static IoMessage newWithName(IoState state, IoString ioSymbol)
         {
             IoMessage msg = IoMessage.createObject(state);
             msg.messageName = ioSymbol;
@@ -202,7 +202,7 @@ namespace io {
 
         public IoMessage newFromTextLabel(IoState state, string code, string label)
         {
-            IoSeq labelSymbol = IoSeq.createSymbolInMachine(state, label);
+            IoString labelSymbol = IoString.createSymbolInMachine(state, label);
             return newFromTextLabelSymbol(state, code, labelSymbol);
         }
 
@@ -371,15 +371,15 @@ namespace io {
 
         // TODO: possible folding of following functions
 
-        public IoSeq localsSymbolArgAt(IoObject locals, int i)
+        public IoString localsSymbolArgAt(IoObject locals, int i)
         {
 			IoObject o = localsValueArgAt(locals, i);
-			if (!o.name.Equals("Sequence"))
+			if (!o.name.Equals("String"))
 			{
-				localsNumberArgAtErrorForType(locals, i, "Sequence");
+				localsNumberArgAtErrorForType(locals, i, "String");
 
 			}
-            return o as IoSeq;
+            return o as IoString;
         }
 
         public IoObject localsMessageArgAt(IoObject locals, int n)
@@ -434,11 +434,11 @@ namespace io {
                 return self;
             }
 
-            return newWithNameReturnsValue(state, IoSeq.createSymbolInMachine(state, "nil"), state.ioNil);
+            return newWithNameReturnsValue(state, IoString.createSymbolInMachine(state, "nil"), state.ioNil);
 
         }
 
-        IoMessage newWithNameReturnsValue(IoState state, IoSeq symbol, IoObject v)
+        IoMessage newWithNameReturnsValue(IoState state, IoString symbol, IoObject v)
         {
             IoMessage self = clone(state) as IoMessage;
             self.messageName = symbol;
@@ -483,7 +483,7 @@ namespace io {
         void parseName(IoState state, IoLexer lexer)
         {
             IoToken token = lexer.pop();
-            messageName = IoSeq.createSymbolInMachine(state, token.name);
+            messageName = IoString.createSymbolInMachine(state, token.name);
             ifPossibleCacheToken(token);
             //rawSetLineNumber(token.lineNumber);
             //rawSetCharNumber(token.charNumber);
@@ -491,18 +491,18 @@ namespace io {
 
         void ifPossibleCacheToken(IoToken token)
         {
-			IoSeq method = this.messageName;
+			IoString method = this.messageName;
 			IoObject r = null;
 			switch (token.type)
 			{
 				case IoTokenType.TRIQUOTE_TOKEN:
 					break;
 				case IoTokenType.MONOQUOTE_TOKEN:
-                    r = IoSeq.createSymbolInMachine(
+                    r = IoString.createSymbolInMachine(
                             method.state,
-                            IoSeq.rawAsUnescapedSymbol(
-                                IoSeq.rawAsUnquotedSymbol(
-                                    IoSeq.createObject(method.state, method.value)
+                            IoString.rawAsUnescapedSymbol(
+                                IoString.rawAsUnquotedSymbol(
+                                    IoString.createObject(method.state, method.value)
                                 )
                             ).value
                         );
@@ -572,7 +572,7 @@ namespace io {
 			args.Add(arg);
         }
 
-		IoMessage newFromTextLabelSymbol(IoState state, string code, IoSeq labelSymbol)
+		IoMessage newFromTextLabelSymbol(IoState state, string code, IoString labelSymbol)
 		{
 			IoLexer lexer = new IoLexer();
 			IoMessage msg = new IoMessage();

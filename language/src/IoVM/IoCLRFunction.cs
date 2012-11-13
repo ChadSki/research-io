@@ -81,7 +81,7 @@ namespace io
 
                         }
                         break;
-                    case "Sequence": parameters[i] = (ep as IoSeq).value; break;
+                    case "String": parameters[i] = (ep as IoString).value; break;
                     case "CLRObject": parameters[i] = (ep as IoCLRObject).clrInstance; break;
                 }
 

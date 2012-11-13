@@ -4,51 +4,51 @@ using System.Diagnostics;
 
 namespace io
 {
-    public class IoSeq : IoObject
+    public class IoString : IoObject
     {
-        public override string name { get { return "Sequence"; } }
+        public override string name { get { return "String"; } }
         public string value = String.Empty;
 
         public char[] asCharArray { get { return value.ToCharArray(); } }
 
-		public new static IoSeq createProto(IoState state)
+		public new static IoString createProto(IoState state)
 		{
-			IoSeq s = new IoSeq();
-			return s.proto(state) as IoSeq;
+			IoString s = new IoString();
+			return s.proto(state) as IoString;
 		}
 
-        public new static IoSeq createObject(IoState state)
+        public new static IoString createObject(IoState state)
         {
-            IoSeq s = new IoSeq();
-            return s.clone(state) as IoSeq;
+            IoString s = new IoString();
+            return s.clone(state) as IoString;
         }
 
-        public static IoSeq createObject(IoSeq symbol)
+        public static IoString createObject(IoString symbol)
         {
-            IoSeq seq = new IoSeq();
-            seq = seq.clone(symbol.state) as IoSeq;
+            IoString seq = new IoString();
+            seq = seq.clone(symbol.state) as IoString;
             seq.value = symbol.value;
             return seq;
         }
 
-        public static IoSeq createObject(IoState state, string symbol)
+        public static IoString createObject(IoState state, string symbol)
         {
-            IoSeq seq = new IoSeq();
-            seq = seq.clone(state) as IoSeq;
+            IoString seq = new IoString();
+            seq = seq.clone(state) as IoString;
             seq.value = symbol;
             return seq;
         }
 
-        public static IoSeq createSymbolInMachine(IoState state, string symbol)
+        public static IoString createSymbolInMachine(IoState state, string symbol)
         {
             if (state.symbols[symbol] == null)
-                state.symbols[symbol] = IoSeq.createObject(state, symbol);
-            return state.symbols[symbol] as IoSeq;
+                state.symbols[symbol] = IoString.createObject(state, symbol);
+            return state.symbols[symbol] as IoString;
         }
 
         public override IoObject proto(IoState state)
 		{
-			IoSeq pro = new IoSeq();
+			IoString pro = new IoString();
             pro.state = state;
 		//	pro.tag.cloneFunc = new IoTagCloneFunc(this.clone);
         //    pro.tag.compareFunc = new IoTagCompareFunc(this.compare);
@@ -58,9 +58,9 @@ namespace io
 			pro.protos.Add(state.protoWithInitFunc("Object"));
 
             IoCFunction[] methodTable = new IoCFunction[] {
-                new IoCFunction("appendSeq", new IoMethodFunc(IoSeq.slotAppendSeq)),
-                new IoCFunction("at", new IoMethodFunc(IoSeq.slotAt)),
-                new IoCFunction("reverse", new IoMethodFunc(IoSeq.slotReverse)),
+                new IoCFunction("appendSeq", new IoMethodFunc(IoString.slotAppendSeq)),
+                new IoCFunction("at", new IoMethodFunc(IoString.slotAt)),
+                new IoCFunction("reverse", new IoMethodFunc(IoString.slotReverse)),
 			};
 
 			pro.addTaglessMethodTable(state, methodTable);
@@ -70,8 +70,8 @@ namespace io
         public static IoObject slotAppendSeq(IoObject target, IoObject locals, IoObject message)
         {
             IoMessage m = message as IoMessage;
-            IoSeq o = target as IoSeq;
-            IoSeq arg = m.localsSymbolArgAt(locals, 0);
+            IoString o = target as IoString;
+            IoString arg = m.localsSymbolArgAt(locals, 0);
             o.value += arg.value.Replace(@"\""", "\"");
             return o;
         }
@@ -79,8 +79,8 @@ namespace io
         public static IoObject slotAt(IoObject target, IoObject locals, IoObject message)
         {
             IoMessage m = message as IoMessage;
-            IoSeq o = target as IoSeq;
-            IoSeq res = IoSeq.createObject(target.state);
+            IoString o = target as IoString;
+            IoString res = IoString.createObject(target.state);
             IoNumber arg = m.localsNumberArgAt(locals, 0);
             res.value += o.value.Substring(arg.asInt(),1);
             return res;
@@ -89,8 +89,8 @@ namespace io
         public static IoObject slotReverse(IoObject target, IoObject locals, IoObject message)
         {
             IoMessage m = message as IoMessage;
-            IoSeq o = target as IoSeq;
-            IoSeq res = IoSeq.createObject(target.state);
+            IoString o = target as IoString;
+            IoString res = IoString.createObject(target.state);
             char[] A = o.asCharArray;
             Array.Reverse(A);
             res.value = new string(A);
@@ -99,8 +99,8 @@ namespace io
 
 		public override IoObject clone(IoState state)
 		{
-			IoSeq proto = state.protoWithInitFunc(name) as IoSeq;
-			IoSeq result = new IoSeq();
+			IoString proto = state.protoWithInitFunc(name) as IoString;
+			IoString result = new IoString();
 			result.state = state;
             result.value = proto.value;
 			result.createProtos();
@@ -111,7 +111,7 @@ namespace io
 
         public override int compare(IoObject v)
         {
-			if (v is IoSeq) return this.value.CompareTo((v as IoSeq).value);
+			if (v is IoString) return this.value.CompareTo((v as IoString).value);
             return base.compare(v);
         }
 
@@ -125,15 +125,15 @@ namespace io
             return value.ToString();
         }
 
-        public static IoSeq rawAsUnquotedSymbol(IoSeq s)
+        public static IoString rawAsUnquotedSymbol(IoString s)
         {
             string str = "";
             if (s.value.StartsWith("\"")) str = s.value.Substring(1, s.value.Length - 1);
             if (s.value.EndsWith("\"")) str = str.Substring(0,s.value.Length-2);
-            return IoSeq.createObject(s.state, str);
+            return IoString.createObject(s.state, str);
         }
 
-        public static IoSeq rawAsUnescapedSymbol(IoSeq s)
+        public static IoString rawAsUnescapedSymbol(IoString s)
         {
             string str = "";
             int i = 0;
@@ -169,7 +169,7 @@ namespace io
 
                 i++;
             }
-            return IoSeq.createObject(s.state, str);
+            return IoString.createObject(s.state, str);
         }
     }
 }

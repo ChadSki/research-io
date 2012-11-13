@@ -66,7 +66,7 @@ namespace io
         {
             IoCLR self = target as IoCLR;
             IoMessage m = message as IoMessage;
-            IoSeq nameSpace = m.localsSymbolArgAt(locals, 0);
+            IoString nameSpace = m.localsSymbolArgAt(locals, 0);
             bool validNamespace = false;
             IoCLRAssembly foundInAssembly = null;
             foreach (IoCLRAssembly asm in self.loadedAssemblies.Values)
@@ -93,7 +93,7 @@ namespace io
         {
             IoCLR self = target as IoCLR;
             IoMessage m = message as IoMessage;
-            IoSeq assemblyName = m.localsSymbolArgAt(locals, 0);
+            IoString assemblyName = m.localsSymbolArgAt(locals, 0);
             IoCLRAssembly asm = self.loadedAssemblies[assemblyName.value] as IoCLRAssembly;
             if (asm != null)
             {
@@ -138,7 +138,7 @@ namespace io
         {
             IoCLR self = target as IoCLR;
             IoMessage m = message as IoMessage;
-            IoSeq typeName = m.localsSymbolArgAt(locals, 0);
+            IoString typeName = m.localsSymbolArgAt(locals, 0);
             IoObject obj = self.getType(target.state, typeName.value);
             return obj == null ? target.state.ioNil : obj;
         }

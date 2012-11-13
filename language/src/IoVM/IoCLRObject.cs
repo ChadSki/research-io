@@ -89,7 +89,7 @@ namespace io
                     case "Number": t = typeof(double); break;
                     case "Object": t = typeof(object); break;
                     case "CLRObject": t = (o as IoCLRObject).clrType; break;
-                    case "Sequence": t = typeof(string); break;
+                    case "String": t = typeof(string); break;
                 }
                 parameters[i] = t;
             }
