@@ -38,7 +38,7 @@ namespace io {
 				new IoCFunction("size", new IoMethodFunc(IoList.slotSize)),
 				new IoCFunction("removeAll", new IoMethodFunc(IoList.slotRemoveAll)),
 				new IoCFunction("append", new IoMethodFunc(IoList.slotAppend)),
-                new IoCFunction("appendSeq", new IoMethodFunc(IoList.slotAppendSeq)),
+                new IoCFunction("appendStr", new IoMethodFunc(IoList.slotAppendStr)),
                 new IoCFunction("with", new IoMethodFunc(IoList.slotWith)),
 				new IoCFunction("prepend", new IoMethodFunc(IoList.slotPrepend)),
 				new IoCFunction("push", new IoMethodFunc(IoList.slotAppend)),
@@ -125,7 +125,7 @@ namespace io {
 			return o;		
         }
 
-        public static IoObject slotAppendSeq(IoObject target, IoObject locals, IoObject message)
+        public static IoObject slotAppendStr(IoObject target, IoObject locals, IoObject message)
         {
             IoMessage m = message as IoMessage;
             IoList o = target as IoList;

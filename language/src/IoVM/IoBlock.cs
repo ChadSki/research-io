@@ -108,8 +108,8 @@ namespace io
             }
 
             IoMessage msg = self.containedMessage;
-            IoString seq = IoMessage.slotCode(msg, locals, m) as IoString;
-            s += seq.value + ")";
+            IoString str = IoMessage.slotCode(msg, locals, m) as IoString;
+            s += str.value + ")";
 
             return IoString.createObject(target.state, s);
         }
@@ -142,7 +142,7 @@ namespace io
 
             callObject = IoCall.with(state, locals, target, m, slotContext, self, null/*state.currentCoroutine*/);
 
-            IoSeqObjectHashtable bslots = blockLocals.slots;
+            IoStrObjectHashtable bslots = blockLocals.slots;
             bslots["call"] = callObject;
             bslots["self"] = scope;
             bslots["updateSlot"] = state.localsUpdateSlotCFunc;

@@ -25,18 +25,18 @@ namespace io
 
         public static IoString createObject(IoString symbol)
         {
-            IoString seq = new IoString();
-            seq = seq.clone(symbol.state) as IoString;
-            seq.value = symbol.value;
-            return seq;
+            IoString str = new IoString();
+            str = str.clone(symbol.state) as IoString;
+            str.value = symbol.value;
+            return str;
         }
 
         public static IoString createObject(IoState state, string symbol)
         {
-            IoString seq = new IoString();
-            seq = seq.clone(state) as IoString;
-            seq.value = symbol;
-            return seq;
+            IoString str = new IoString();
+            str = str.clone(state) as IoString;
+            str.value = symbol;
+            return str;
         }
 
         public static IoString createSymbolInMachine(IoState state, string symbol)
@@ -58,7 +58,7 @@ namespace io
 			pro.protos.Add(state.protoWithInitFunc("Object"));
 
             IoCFunction[] methodTable = new IoCFunction[] {
-                new IoCFunction("appendSeq", new IoMethodFunc(IoString.slotAppendSeq)),
+                new IoCFunction("appendStr", new IoMethodFunc(IoString.slotAppendStr)),
                 new IoCFunction("at", new IoMethodFunc(IoString.slotAt)),
                 new IoCFunction("reverse", new IoMethodFunc(IoString.slotReverse)),
 			};
@@ -67,7 +67,7 @@ namespace io
 			return pro;
 		}
 
-        public static IoObject slotAppendSeq(IoObject target, IoObject locals, IoObject message)
+        public static IoObject slotAppendStr(IoObject target, IoObject locals, IoObject message)
         {
             IoMessage m = message as IoMessage;
             IoString o = target as IoString;

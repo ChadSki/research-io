@@ -24,10 +24,10 @@ namespace io
 
     // SYMBOL HANDLING HELPER
 
-    public class IoSeqObjectHashtable : Hashtable
+    public class IoStrObjectHashtable : Hashtable
     {
         public IoState state = null;
-        public IoSeqObjectHashtable(IoState s) { state = s; }
+        public IoStrObjectHashtable(IoState s) { state = s; }
         public override object this[object key]
         {
             get
@@ -64,7 +64,7 @@ namespace io
         public static long uniqueIdCounter = 0;
         public long uniqueId = 0;
         public virtual string name { get { return "Object"; } }
-        public IoSeqObjectHashtable slots;
+        public IoStrObjectHashtable slots;
         public IoObjectArrayList listeners;
         public IoObjectArrayList protos;
         public bool hasDoneLookup;
@@ -715,7 +715,7 @@ done:
         public void createSlots()
         {
             if (slots == null)
-                slots = new IoSeqObjectHashtable(state);
+                slots = new IoStrObjectHashtable(state);
 			if (state == null)
 			{
 				int x = 0;

@@ -131,7 +131,7 @@ namespace io {
 			core = objectProto.clone(this);
 			lobby = objectProto.clone(this);
 
-            IoString seqProto = IoString.createProto(this);
+            IoString strProto = IoString.createProto(this);
 
             setupSingletons();
             setupSymbols();
@@ -174,7 +174,7 @@ namespace io {
             core.slots["Call"] = callProto;
             core.slots["Locals"] = localsProto = objectProto.localsProto(this);
             core.slots["List"] = listProto;
-            core.slots["String"] = seqProto;
+            core.slots["String"] = strProto;
             core.slots["CLR"] = clrProto;
             core.slots["CLRAssembly"] = asmProto;
             core.slots["CLRObject"] = clrObjProto;
