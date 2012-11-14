@@ -41,9 +41,9 @@ namespace io
 
         public static IoString createSymbolInMachine(IoState state, string symbol)
         {
-            if (state.symbols[symbol] == null)
+            if (!state.symbols.ContainsKey(symbol))
                 state.symbols[symbol] = IoString.createObject(state, symbol);
-            return state.symbols[symbol] as IoString;
+            return state.symbols[symbol];
         }
 
         public override IoObject proto(IoState state)

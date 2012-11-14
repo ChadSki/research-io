@@ -1,6 +1,7 @@
         
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace io {
 
@@ -10,12 +11,11 @@ namespace io {
 		public string s;
         public int currentPos;
 		public char current { get { return s[currentPos]; } }
-		public ArrayList charLineIndex = new ArrayList();
 		public long lineHint;
 		public long maxChar;
-		public Stack posStack = new Stack();
-		public Stack tokenStack = new Stack();
-		public ArrayList tokenStream = new ArrayList();
+		public Stack<int> posStack = new Stack<int>();
+        public Stack<int> tokenStack = new Stack<int>();
+		public List<IoToken> tokenStream = new List<IoToken>();
 		public int resultIndex = 0;
 		public IoToken errorToken;
 		public string errorDescription;
@@ -80,7 +80,7 @@ namespace io {
 
 		public int lastPos() 
 		{
-			return Convert.ToInt32(posStack.Peek());
+			return posStack.Peek();
 		}
 
 		public void pushPos()

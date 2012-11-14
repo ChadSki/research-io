@@ -12,7 +12,7 @@ namespace io {
         public bool async = false;
 		public override string name { get { return "Message"; } }
         public IoString  messageName;
-        public IoObjectArrayList args;
+        public IoObjectList args;
 		public IoMessage next;
 		public IoObject cachedResult;
 		public int lineNumber;
@@ -41,7 +41,7 @@ namespace io {
             pro.uniqueId = 0;
             pro.messageName = IoString.createSymbolInMachine(state, "anonymous");
             pro.label = IoString.createSymbolInMachine(state, "unlabeled");
-            pro.args = new IoObjectArrayList();
+            pro.args = new IoObjectList();
             state.registerProtoWithFunc(name, new IoStateProto(name, pro, new IoStateProtoFunc(this.proto)));
 			pro.protos.Add(state.protoWithInitFunc("Object"));
 
@@ -73,7 +73,7 @@ namespace io {
 			IoMessage to = _to as IoMessage;
 			to.messageName = from.messageName;
 			to.label = from.label;
-			to.args = new IoObjectArrayList();
+			to.args = new IoObjectList();
 		}
 
         // Published Slots

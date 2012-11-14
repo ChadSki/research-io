@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 namespace io {
@@ -15,16 +16,13 @@ namespace io {
 
 	public class IoState {
 
-        public ArrayList contextList = new ArrayList();
+        public List<IEnumerator> contextList = new List<IEnumerator>();
 
-		public Hashtable primitives = new Hashtable(); // keys are raw strings
-        public Hashtable symbols = new Hashtable(); // keys are raw strings
+        public Dictionary<string, IoStateProto> primitives = new Dictionary<string, IoStateProto>();
+        public Dictionary<string, IoString> symbols = new Dictionary<string, IoString>();
 
 		// coroutines
 		public IoObject objectProto;
-       // public IoCoroutine mainCoroutine;    // the object that represents the main "thread"
-       // public IoCoroutine currentCoroutine; // the object whose coroutine is active
-		public Stack currentIoStack;      // quick access to current coro's retain stack
         public IoCLR clrProto;
 
 		// quick access objects
@@ -63,7 +61,7 @@ namespace io {
 		public IoMessage yieldMessage;
 		public IoMessage typeMessage;
 		
-		public IoObjectArrayList cachedNumbers;
+		public IoObjectList cachedNumbers;
 
 		// singletons
 		public IoObject ioNil;
@@ -115,8 +113,7 @@ namespace io {
 
 		public IoObject protoWithInitFunc(string name)
 		{
-			IoStateProto stateProto = primitives[name] as IoStateProto;
-			return stateProto.proto;
+			return primitives[name].proto;
 		}
 
         public void error(IoMessage m, string s)
@@ -285,7 +282,7 @@ namespace io {
             string[] ios = null;
             try
             {
-                ios = Directory.GetFiles("../io/bootstrap");
+                ios = Directory.GetFiles("bootstrap");
             }
             catch {
             }

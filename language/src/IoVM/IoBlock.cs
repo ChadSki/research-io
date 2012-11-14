@@ -10,7 +10,7 @@ namespace io
         public bool async = false;
         public override string name { get { return "Block"; } }
         public IoMessage containedMessage;
-        public IoObjectArrayList argNames;
+        public IoObjectList argNames;
         public IoObject scope; // if 0x0, then use target as the locals proto
         public IoCallStatus passStops;
 
@@ -35,7 +35,7 @@ namespace io
             pro.createSlots();
             pro.createProtos();
             pro.containedMessage = state.nilMessage;
-            pro.argNames = new IoObjectArrayList();
+            pro.argNames = new IoObjectList();
             state.registerProtoWithFunc(name, new IoStateProto(name, pro, new IoStateProtoFunc(this.proto)));
             pro.protos.Add(state.protoWithInitFunc("Object"));
 
@@ -56,7 +56,7 @@ namespace io
 			IoBlock from = _from as IoBlock;
             to.isActivatable = from.isActivatable;
             to.containedMessage = from.containedMessage;
-            to.argNames = new IoObjectArrayList();
+            to.argNames = new IoObjectList();
         }
 
         // Published Slots
@@ -126,7 +126,7 @@ namespace io
             IoState state = sender.state;
             IoBlock self = sender as IoBlock;
 
-            IoObjectArrayList argNames = self.argNames;
+            IoObjectList argNames = self.argNames;
             IoObject scope = self.scope;
 
             IoObject blockLocals = state.localsProto.clone(state);

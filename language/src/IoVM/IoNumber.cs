@@ -82,15 +82,8 @@ namespace io {
                 )
             )
             {
-                try
-                {
-                    num.longValue = Convert.ToInt32(n);
-                    num.isInteger = true;
-                }
-                catch (OverflowException oe)
-                {
-
-                }
+                num.longValue = Convert.ToInt32(n);
+                num.isInteger = true;
             }
 			return num;
         }

@@ -1,12 +1,13 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace io
 {
     // DEBUG HELPER
 
-    public class IoObjectArrayList : ArrayList
+    public class IoObjectList : List<IoObject>
     {
         public override string ToString()
         {
@@ -65,8 +66,8 @@ namespace io
         public long uniqueId = 0;
         public virtual string name { get { return "Object"; } }
         public IoStrObjectHashtable slots;
-        public IoObjectArrayList listeners;
-        public IoObjectArrayList protos;
+        public IoObjectList listeners;
+        public IoObjectList protos;
         public bool hasDoneLookup;
         public bool isActivatable;
         public bool isLocals;
@@ -480,13 +481,13 @@ namespace io
         public static IoObject slotYield(IoObject target, IoObject locals, IoObject message)
         {
             IoState state = target.state;
-            ArrayList toDeleteThread = new ArrayList();
+            List<IEnumerator> toDeleteThread = new List<IEnumerator>();
             for (int i = 0; i < state.contextList.Count; i++) {
-                IEnumerator e  = state.contextList[i] as IEnumerator;
+                IEnumerator e  = state.contextList[i];
                 bool end = e.MoveNext();
                 if (!end) toDeleteThread.Add(e);
             }
-            foreach (object e in toDeleteThread)
+            foreach (IEnumerator e in toDeleteThread)
                 state.contextList.Remove(e);
             return IoNumber.newWithDouble(state, state.contextList.Count);
         }
@@ -716,21 +717,21 @@ done:
         {
             if (slots == null)
                 slots = new IoStrObjectHashtable(state);
-			if (state == null)
-			{
-				int x = 0;
-			}
+            //if (state == null)
+            //{
+            //    int x = 0;
+            //}
         }
 
         public void createProtos()
         {
             if (protos == null)
-                protos = new IoObjectArrayList();
+                protos = new IoObjectList();
         }
 
 		public IoObject slotsBySymbol(IoString symbol)
 		{
-            IoString s = this.state.symbols[symbol.value] as IoString;
+            IoString s = this.state.symbols[symbol.value];
             if (s == null) return null;
             return slots[s] as IoObject;
 		}

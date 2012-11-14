@@ -73,10 +73,10 @@ namespace io
             if (clrType == null) return null;
             ConstructorInfo[] searchConstructors = null;
             Type[] parameters = null;
-            ArrayList args = null;
+            List<IoObject> args = null;
             MethodBase mb = null;
 
-            args = new ArrayList();
+            args = new List<IoObject>();
             parameters = new Type[message.args.Count];
 
             for (int i = 0; i < message.args.Count; i++)

@@ -7,7 +7,7 @@ namespace io {
 	public class IoList : IoObject
     {
 		public override string name { get { return "List"; } }
-        public IoObjectArrayList list = new IoObjectArrayList();
+        public IoObjectList list = new IoObjectList();
 
 		public new static IoList createProto(IoState state)
 		{
@@ -28,7 +28,7 @@ namespace io {
          //   pro.tag.cloneFunc = new IoTagCloneFunc(pro.clone);
             pro.createSlots();
             pro.createProtos();
-            pro.list = new IoObjectArrayList();
+            pro.list = new IoObjectList();
 			state.registerProtoWithFunc(pro.name, new IoStateProto(pro.name, pro, new IoStateProtoFunc(pro.proto)));
 			pro.protos.Add(state.protoWithInitFunc("Object"));
 
@@ -60,7 +60,7 @@ namespace io {
             IoList result = new IoList();
             uniqueIdCounter++;
             result.uniqueId = uniqueIdCounter;
-            result.list = new IoObjectArrayList();
+            result.list = new IoObjectList();
             result.state = state;
             result.createProtos();
             result.createSlots();

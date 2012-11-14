@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using System.Collections;
+using System.Linq;
 
 namespace io
 {
@@ -12,7 +13,7 @@ namespace io
         public override string name { get { return "CLRFunction"; } }
         public MethodBase methodInfo;
         public Type[] parametersTypes;
-        public ArrayList evaluatedParameters;
+        public List<IoObject> evaluatedParameters;
         public IoCLRFunction() : base() { isActivatable = true; }
 
         public new static IoCLRFunction createProto(IoState state)
@@ -61,9 +62,9 @@ namespace io
             object result = null;
 
             object[] parameters = new object[method.evaluatedParameters.Count];
-            for (int i = 0; i < method.evaluatedParameters.Count; i++)
+            foreach (int i in Enumerable.Range(0, method.evaluatedParameters.Count))
             {
-                IoObject ep = method.evaluatedParameters[i] as IoObject;
+                IoObject ep = method.evaluatedParameters[i];
                 switch (ep.name)
                 {
                     case "Object": parameters[i] = ep; break;
@@ -84,9 +85,8 @@ namespace io
                     case "String": parameters[i] = (ep as IoString).value; break;
                     case "CLRObject": parameters[i] = (ep as IoCLRObject).clrInstance; break;
                 }
-
             }
-
+            
             IoCLRObject clr = IoCLRObject.createObject(self.state);
 
             try

@@ -113,10 +113,10 @@ namespace io
             {
                 string theNameSpace = t.FullName.LastIndexOf(".") == -1 ? "-" : t.FullName.Substring(0, t.FullName.LastIndexOf("."));
                 string theClass = t.FullName.LastIndexOf(".") == -1 ? t.FullName : t.FullName.Substring(t.FullName.LastIndexOf(".") + 1);
-                if (theClass.Equals("Form"))
-                {
-                    int i = 0;
-                }
+                //if (theClass.Equals("Form"))
+                //{
+                //    int i = 0;
+                //}
                 if (asm.assemblyNamespaces.ContainsKey(theNameSpace))
                 {
                     Hashtable a = asm.assemblyNamespaces[theNameSpace] as Hashtable;
