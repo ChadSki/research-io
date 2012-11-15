@@ -131,7 +131,7 @@ Message do (
                 	"compiler error: the symbol to left of" println
 				)
 				setSlot("slotName", attaching name)
-				setSlot("quotedSlotName", Struence clone appendStr("\"") appendStr(slotName) appendStr("\""))
+				setSlot("quotedSlotName", String clone appendStr("\"") appendStr(slotName) appendStr("\""))
 				setSlot("slotNameMessage", Message clone setName(quotedSlotName) setCachedResult(slotName))
                 attaching appendArg(slotNameMessage)
 				setSlot("setSlotName",
@@ -233,9 +233,4 @@ Message do (
 		)
 		self
 	))
-
 )
-
-//Message shuffleOn
-
-
