@@ -788,11 +788,14 @@ done:
 
         public virtual void print()
         {
-            //IoString type = this.slots["type"] as IoString;
-            //if (type == null)
-            //        type = (this.rawGetSlot(state.typeMessage.messageName) as IoCFunction).func(this, this, this) as IoString;
-            //string printedName = type == null ? ToString() : type.value;
-            Console.Write(this);
+            var typeStr = IoString.createObject(this.state, "type");
+
+            IoString type = this.slots[typeStr] as IoString;
+
+            if (type == null)
+                Console.Write(this);
+            else
+                Console.Write(type.value);
         }
 
         public override string ToString()
