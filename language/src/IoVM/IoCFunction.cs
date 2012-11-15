@@ -4,27 +4,27 @@ using System.Text;
 
 namespace io
 {
-	public delegate IoObject IoMethodFunc(IoObject target, IoObject locals, IoObject message);
+    public delegate IoObject IoMethodFunc(IoObject target, IoObject locals, IoObject message);
 
-	public class IoCFunction : IoObject
-	{
+    public class IoCFunction : IoObject
+    {
         public bool async = false;
-		public override string name { get { return "CFunction";  } }
-		public IoMethodFunc func;
-		public string funcName;
-		public IoCFunction() : base() { isActivatable = true; }
+        public override string name { get { return "CFunction";  } }
+        public IoMethodFunc func;
+        public string funcName;
+        public IoCFunction() : base() { isActivatable = true; }
 
-		public new static IoCFunction createProto(IoState state)
-		{
-			IoCFunction cf = new IoCFunction();
-			return cf.proto(state) as IoCFunction;
-		}
+        public new static IoCFunction createProto(IoState state)
+        {
+            IoCFunction cf = new IoCFunction();
+            return cf.proto(state) as IoCFunction;
+        }
 
-		public new static IoCFunction createObject(IoState state)
-		{
-			IoCFunction cf = new IoCFunction();
-			return cf.proto(state).clone(state) as IoCFunction;
-		}
+        public new static IoCFunction createObject(IoState state)
+        {
+            IoCFunction cf = new IoCFunction();
+            return cf.proto(state).clone(state) as IoCFunction;
+        }
 
         public IoCFunction(string name, IoMethodFunc func) : this(null, name, func) {}
 
@@ -52,10 +52,10 @@ namespace io
 
             IoCFunction[] methodTable = new IoCFunction[] {
                 //new IoCFunction("perform", new IoMethodFunc(pro.slotPerform)),
-			};
+            };
 
-			pro.addTaglessMethodTable(state, methodTable);
-			return pro;
+            pro.addTaglessMethodTable(state, methodTable);
+            return pro;
         }
 
         public override void cloneSpecific(IoObject _from, IoObject _to)    
@@ -63,14 +63,14 @@ namespace io
             IoCFunction from = _from as IoCFunction;
             IoCFunction to = _to as IoCFunction;
             to.isActivatable = true;
-			to.funcName = from.funcName;
-			to.func = from.func;
-		}
+            to.funcName = from.funcName;
+            to.func = from.func;
+        }
 
         public override IoObject activate(IoObject self, IoObject target, IoObject locals, IoMessage m, IoObject slotContext)
-		{
+        {
             if (func == null) return self;
-			return func(target, locals, m);
-		}
-	}
+            return func(target, locals, m);
+        }
+    }
 }

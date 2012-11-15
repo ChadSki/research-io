@@ -10,7 +10,7 @@ namespace io {
         MESSAGE_STOP_STATUS_EOL = 8
     }
 
-	public class IoCall : IoObject
+    public class IoCall : IoObject
     {
         public override string name { get { return "Call"; } }
         public IoObject sender;
@@ -73,18 +73,18 @@ namespace io {
         }
 
 
-		//public override IoObject clone(IoState state)
-		//{
-		//    IoObject proto = state.protoWithInitFunc(name);
-		//    IoCall result = new IoCall();
-		//    uniqueIdCounter++;
-		//    result.uniqueId = uniqueIdCounter;
-		//    result.state = state;
-		//    result.createProtos();
-		//    result.createSlots();
-		//    result.protos.Add(proto);
-		//    return result;
-		//}
+        //public override IoObject clone(IoState state)
+        //{
+        //    IoObject proto = state.protoWithInitFunc(name);
+        //    IoCall result = new IoCall();
+        //    uniqueIdCounter++;
+        //    result.uniqueId = uniqueIdCounter;
+        //    result.state = state;
+        //    result.createProtos();
+        //    result.createSlots();
+        //    result.protos.Add(proto);
+        //    return result;
+        //}
 
         public static IoObject with(IoState state, IoObject sender, IoObject target,
             IoObject message, IoObject slotContext, IoObject activated, IoObject coro)

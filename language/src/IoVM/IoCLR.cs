@@ -49,7 +49,7 @@ namespace io
                 new IoCFunction("loadAssembly", new IoMethodFunc(IoCLR.slotLoadAssembly)),
                 new IoCFunction("using", new IoMethodFunc(IoCLR.slotUsing)),
                 new IoCFunction("getType", new IoMethodFunc(IoCLR.slotGetType)),
-			};
+            };
 
             pro.addTaglessMethodTable(state, methodTable);
             return pro;

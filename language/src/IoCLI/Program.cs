@@ -8,7 +8,7 @@ using System.Reflection.Emit;
 
 namespace io
 {
-	public class IoCLI {
+    public class IoCLI {
 
         static void Main()
         {

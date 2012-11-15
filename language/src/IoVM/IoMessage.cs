@@ -7,22 +7,22 @@ using System.Text.RegularExpressions;
 
 namespace io {
 
-	public class IoMessage : IoObject
+    public class IoMessage : IoObject
     {
         public bool async = false;
-		public override string name { get { return "Message"; } }
+        public override string name { get { return "Message"; } }
         public IoString  messageName;
         public IoObjectList args;
-		public IoMessage next;
-		public IoObject cachedResult;
-		public int lineNumber;
-		public IoString label;
+        public IoMessage next;
+        public IoObject cachedResult;
+        public int lineNumber;
+        public IoString label;
 
-		public new static IoMessage createProto(IoState state)
-		{
-			IoMessage m = new IoMessage();
-			return m.proto(state) as IoMessage;
-		}
+        public new static IoMessage createProto(IoState state)
+        {
+            IoMessage m = new IoMessage();
+            return m.proto(state) as IoMessage;
+        }
 
         public new static IoMessage createObject(IoState state)
         {
@@ -30,12 +30,12 @@ namespace io {
             return pro.clone(state) as IoMessage;
         }
 
-		public override IoObject proto(IoState state)
-		{
-			IoMessage pro = new IoMessage();
+        public override IoObject proto(IoState state)
+        {
+            IoMessage pro = new IoMessage();
             pro.state = state;
           //  pro.tag.cloneFunc = new IoTagCloneFunc(this.clone);
-			//pro.tag.activateFunc = new IoTagActivateFunc(this.activate);
+            //pro.tag.activateFunc = new IoTagActivateFunc(this.activate);
             pro.createSlots();
             pro.createProtos();
             pro.uniqueId = 0;
@@ -43,7 +43,7 @@ namespace io {
             pro.label = IoString.createSymbolInMachine(state, "unlabeled");
             pro.args = new IoObjectList();
             state.registerProtoWithFunc(name, new IoStateProto(name, pro, new IoStateProtoFunc(this.proto)));
-			pro.protos.Add(state.protoWithInitFunc("Object"));
+            pro.protos.Add(state.protoWithInitFunc("Object"));
 
             IoCFunction[] methodTable = new IoCFunction[] {
                 new IoCFunction("name", new IoMethodFunc(IoMessage.slotName)),
@@ -57,24 +57,24 @@ namespace io {
                 new IoCFunction("argCount", new IoMethodFunc(IoMessage.slotArgCount)),
                 new IoCFunction("asString", new IoMethodFunc(IoMessage.slotCode)),
                 new IoCFunction("cachedResult", new IoMethodFunc(IoMessage.slotCachedResult)),
-	            new IoCFunction("setCachedResult", new IoMethodFunc(IoMessage.slotSetCachedResult)),
+                new IoCFunction("setCachedResult", new IoMethodFunc(IoMessage.slotSetCachedResult)),
                 new IoCFunction("removeCachedResult", new IoMethodFunc(IoMessage.slotRemoveCachedResult)),
                 new IoCFunction("hasCachedResult", new IoMethodFunc(IoMessage.slotHasCachedResult)),
 
             };
 
             pro.addTaglessMethodTable(state, methodTable);
-			return pro;
-		}
+            return pro;
+        }
 
-		public override void cloneSpecific(IoObject _from, IoObject _to)
-		{
-			IoMessage from = _from as IoMessage;
-			IoMessage to = _to as IoMessage;
-			to.messageName = from.messageName;
-			to.label = from.label;
-			to.args = new IoObjectList();
-		}
+        public override void cloneSpecific(IoObject _from, IoObject _to)
+        {
+            IoMessage from = _from as IoMessage;
+            IoMessage to = _to as IoMessage;
+            to.messageName = from.messageName;
+            to.label = from.label;
+            to.args = new IoObjectList();
+        }
 
         // Published Slots
 
@@ -373,12 +373,12 @@ namespace io {
 
         public IoString localsSymbolArgAt(IoObject locals, int i)
         {
-			IoObject o = localsValueArgAt(locals, i);
-			if (!o.name.Equals("String"))
-			{
-				localsNumberArgAtErrorForType(locals, i, "String");
+            IoObject o = localsValueArgAt(locals, i);
+            if (!o.name.Equals("String"))
+            {
+                localsNumberArgAtErrorForType(locals, i, "String");
 
-			}
+            }
             return o as IoString;
         }
 
@@ -491,13 +491,13 @@ namespace io {
 
         void ifPossibleCacheToken(IoToken token)
         {
-			IoString method = this.messageName;
-			IoObject r = null;
-			switch (token.type)
-			{
-				case IoTokenType.TRIQUOTE_TOKEN:
-					break;
-				case IoTokenType.MONOQUOTE_TOKEN:
+            IoString method = this.messageName;
+            IoObject r = null;
+            switch (token.type)
+            {
+                case IoTokenType.TRIQUOTE_TOKEN:
+                    break;
+                case IoTokenType.MONOQUOTE_TOKEN:
                     r = IoString.createSymbolInMachine(
                             method.state,
                             IoString.rawAsUnescapedSymbol(
@@ -506,10 +506,10 @@ namespace io {
                                 )
                             ).value
                         );
-					break;
-				case IoTokenType.NUMBER_TOKEN:
-					r = IoNumber.newWithDouble(this.state, Convert.ToDouble(method.value, CultureInfo.InvariantCulture));
-					break;
+                    break;
+                case IoTokenType.NUMBER_TOKEN:
+                    r = IoNumber.newWithDouble(this.state, Convert.ToDouble(method.value, CultureInfo.InvariantCulture));
+                    break;
                 default:
                     if (method.value.Equals("nil"))
                     {
@@ -526,8 +526,8 @@ namespace io {
                     break;
 
 
-			}
-			this.cachedResult = r;
+            }
+            this.cachedResult = r;
         }
 
         void parseNext(IoLexer lexer)
@@ -569,32 +569,32 @@ namespace io {
 
         void addArg(IoMessage arg)
         {
-			args.Add(arg);
+            args.Add(arg);
         }
 
-		IoMessage newFromTextLabelSymbol(IoState state, string code, IoString labelSymbol)
-		{
-			IoLexer lexer = new IoLexer();
-			IoMessage msg = new IoMessage();
-			msg = msg.clone(state) as IoMessage;
-			lexer.s = code;
-			lexer.lex();
-			msg = this.newParse(state, lexer);
-			msg.opShuffle();
-			msg.label = labelSymbol;
-			return msg;
-		}
+        IoMessage newFromTextLabelSymbol(IoState state, string code, IoString labelSymbol)
+        {
+            IoLexer lexer = new IoLexer();
+            IoMessage msg = new IoMessage();
+            msg = msg.clone(state) as IoMessage;
+            lexer.s = code;
+            lexer.lex();
+            msg = this.newParse(state, lexer);
+            msg.opShuffle();
+            msg.label = labelSymbol;
+            return msg;
+        }
 
-		IoObject opShuffle()
-		{
+        IoObject opShuffle()
+        {
             IoObject context = null;
             IoObject m = this.rawGetSlotContext(state.opShuffleMessage.messageName, out context);
             if (m != null)
             {
                 state.opShuffleMessage.localsPerformOn(this, state.lobby);
             }
-			return this;
-		}
+            return this;
+        }
 
     }
 

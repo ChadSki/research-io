@@ -48,7 +48,7 @@ namespace io
             //pro.protos.Add(state.protoWithInitFunc("Object"));
 
             IoCFunction[] methodTable = new IoCFunction[] {
-			    new IoCFunction("namespaces", new IoMethodFunc(IoCLRAssembly.slotNamespaces)),
+                new IoCFunction("namespaces", new IoMethodFunc(IoCLRAssembly.slotNamespaces)),
             };
 
             pro.addTaglessMethodTable(state, methodTable);

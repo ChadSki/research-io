@@ -4,16 +4,16 @@ using System;
 
 namespace io {
 
-	public class IoList : IoObject
+    public class IoList : IoObject
     {
-		public override string name { get { return "List"; } }
+        public override string name { get { return "List"; } }
         public IoObjectList list = new IoObjectList();
 
-		public new static IoList createProto(IoState state)
-		{
-			IoList m = new IoList();
-			return m.proto(state) as IoList;
-		}
+        public new static IoList createProto(IoState state)
+        {
+            IoList m = new IoList();
+            return m.proto(state) as IoList;
+        }
 
         public new static IoList createObject(IoState state)
         {
@@ -21,37 +21,37 @@ namespace io {
             return m.clone(state) as IoList;
         }
 
-		public override IoObject proto(IoState state)
-		{
-			IoList pro = new IoList();
+        public override IoObject proto(IoState state)
+        {
+            IoList pro = new IoList();
             pro.state = state;
          //   pro.tag.cloneFunc = new IoTagCloneFunc(pro.clone);
             pro.createSlots();
             pro.createProtos();
             pro.list = new IoObjectList();
-			state.registerProtoWithFunc(pro.name, new IoStateProto(pro.name, pro, new IoStateProtoFunc(pro.proto)));
-			pro.protos.Add(state.protoWithInitFunc("Object"));
+            state.registerProtoWithFunc(pro.name, new IoStateProto(pro.name, pro, new IoStateProtoFunc(pro.proto)));
+            pro.protos.Add(state.protoWithInitFunc("Object"));
 
             IoCFunction[] methodTable = new IoCFunction[] {
-				new IoCFunction("indexOf", new IoMethodFunc(IoList.slotIndexOf)),
-				new IoCFunction("capacity", new IoMethodFunc(IoList.slotSize)),
-				new IoCFunction("size", new IoMethodFunc(IoList.slotSize)),
-				new IoCFunction("removeAll", new IoMethodFunc(IoList.slotRemoveAll)),
-				new IoCFunction("append", new IoMethodFunc(IoList.slotAppend)),
+                new IoCFunction("indexOf", new IoMethodFunc(IoList.slotIndexOf)),
+                new IoCFunction("capacity", new IoMethodFunc(IoList.slotSize)),
+                new IoCFunction("size", new IoMethodFunc(IoList.slotSize)),
+                new IoCFunction("removeAll", new IoMethodFunc(IoList.slotRemoveAll)),
+                new IoCFunction("append", new IoMethodFunc(IoList.slotAppend)),
                 new IoCFunction("appendStr", new IoMethodFunc(IoList.slotAppendStr)),
                 new IoCFunction("with", new IoMethodFunc(IoList.slotWith)),
-				new IoCFunction("prepend", new IoMethodFunc(IoList.slotPrepend)),
-				new IoCFunction("push", new IoMethodFunc(IoList.slotAppend)),
-				new IoCFunction("at", new IoMethodFunc(IoList.slotAt)),
+                new IoCFunction("prepend", new IoMethodFunc(IoList.slotPrepend)),
+                new IoCFunction("push", new IoMethodFunc(IoList.slotAppend)),
+                new IoCFunction("at", new IoMethodFunc(IoList.slotAt)),
                 new IoCFunction("last", new IoMethodFunc(IoList.slotLast)),
                 new IoCFunction("pop", new IoMethodFunc(IoList.slotPop)),
-				new IoCFunction("removeAt", new IoMethodFunc(IoList.slotRemoveAt)),
+                new IoCFunction("removeAt", new IoMethodFunc(IoList.slotRemoveAt)),
                 new IoCFunction("reverseForeach", new IoMethodFunc(IoList.slotReverseForeach)),
-			};
+            };
 
-			pro.addTaglessMethodTable(state, methodTable);
-			return pro;
-		}
+            pro.addTaglessMethodTable(state, methodTable);
+            return pro;
+        }
 
 
         public override IoObject clone(IoState state)
@@ -71,8 +71,8 @@ namespace io {
         // Published Slots
 
         public static IoObject slotIndexOf(IoObject target, IoObject locals, IoObject m)
-		{
-			IoList o = target as IoList;
+        {
+            IoList o = target as IoList;
             IoObject value = (m as IoMessage).localsValueArgAt(locals, 1);
             try
             {
@@ -81,48 +81,48 @@ namespace io {
             catch(ArgumentOutOfRangeException aoore)
             {
                 object ex = aoore;
-			    return target.state.ioNil;
+                return target.state.ioNil;
             }
-		}
+        }
 
         public static IoObject slotRemoveAll(IoObject target, IoObject locals, IoObject m)
-		{
-			IoList o = target as IoList;
-			if (o.list != null)
+        {
+            IoList o = target as IoList;
+            if (o.list != null)
             {
                 o.list.Clear();
             }
-			return target;
-		}
+            return target;
+        }
 
         public static IoObject slotCapacity(IoObject target, IoObject locals, IoObject m)
-		{
-			IoList o = target as IoList;
-			return IoNumber.newWithDouble(target.state, o.list.Capacity);
-		}
+        {
+            IoList o = target as IoList;
+            return IoNumber.newWithDouble(target.state, o.list.Capacity);
+        }
 
         public static IoObject slotSize(IoObject target, IoObject locals, IoObject m)
-		{
-			IoList o = target as IoList;
+        {
+            IoList o = target as IoList;
             return IoNumber.newWithDouble(target.state, o.list.Count);
-		}
+        }
 
         public void append(IoObject o)
         {
             this.list.Add(o);
         }
 
-		public static IoObject slotAppend(IoObject target, IoObject locals, IoObject message)
-		{
-			IoMessage m = message as IoMessage;
-			IoList o = target as IoList;
+        public static IoObject slotAppend(IoObject target, IoObject locals, IoObject message)
+        {
+            IoMessage m = message as IoMessage;
+            IoList o = target as IoList;
 
             for (int i = 0; i < m.args.Count; i++)
             {
-			    IoObject obj = m.localsValueArgAt(locals, i);
+                IoObject obj = m.localsValueArgAt(locals, i);
                 o.list.Add(obj);
             }
-			return o;		
+            return o;        
         }
 
         public static IoObject slotAppendStr(IoObject target, IoObject locals, IoObject message)
@@ -157,7 +157,7 @@ namespace io {
 
         public static IoObject slotPrepend(IoObject target, IoObject locals, IoObject message)
         {
-			return target;		
+            return target;        
         }
 
         public static IoObject slotAt(IoObject target, IoObject locals, IoObject message)
@@ -211,7 +211,7 @@ namespace io {
                 }
         */
         public static IoObject slotContains(IoObject target, IoObject locals, IoObject message)
-		{
+        {
             return null; // TODO: return IoBool
         }
 
@@ -226,25 +226,25 @@ namespace io {
         }
 
         public static IoObject slotRemoveAt(IoObject target, IoObject locals, IoObject message)
-		{
-			IoMessage m = message as IoMessage;
-    		IoNumber ind = m.localsNumberArgAt(locals, 0);
-			IoList o = target as IoList;
+        {
+            IoMessage m = message as IoMessage;
+            IoNumber ind = m.localsNumberArgAt(locals, 0);
+            IoList o = target as IoList;
             try
             {
                 o.list.RemoveAt(ind.asInt());
-			    return target;
+                return target;
             }
             catch(ArgumentOutOfRangeException aoore)
             {
                 object ex = aoore;
-			    return target.state.ioNil;
+                return target.state.ioNil;
             }
-		}
+        }
 
-		public override string ToString()
-		{
-			return uniqueId.ToString();
-		}
-	}
+        public override string ToString()
+        {
+            return uniqueId.ToString();
+        }
+    }
 }

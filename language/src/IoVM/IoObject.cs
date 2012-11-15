@@ -59,9 +59,9 @@ namespace io
 
     public class IoObject
     {
-		public IoState _state = null;
-		public IoState state { set { _state = value; 
-			if (slots != null) slots.state = value; } get { return _state; } }
+        public IoState _state = null;
+        public IoState state { set { _state = value; 
+            if (slots != null) slots.state = value; } get { return _state; } }
         public static long uniqueIdCounter = 0;
         public long uniqueId = 0;
         public virtual string name { get { return "Object"; } }
@@ -83,7 +83,7 @@ namespace io
             IoObject pro = new IoObject();
             return pro.clone(state);
         }
-		
+        
         public virtual IoObject proto(IoState state)
         {
             IoObject pro = new IoObject();
@@ -101,17 +101,17 @@ namespace io
             IoObject o = Activator.CreateInstance(this.GetType()) as IoObject;//typeof(this)new IoObject();
             uniqueIdCounter++;
             o.uniqueId = uniqueIdCounter;
-			o.state = proto.state;
+            o.state = proto.state;
             o.createSlots();
             o.createProtos();
             o.protos.Add(proto);
-			cloneSpecific(this, o);
+            cloneSpecific(this, o);
             return o;
         }
 
-		public virtual void cloneSpecific(IoObject from, IoObject to) 
-		{
-		}
+        public virtual void cloneSpecific(IoObject from, IoObject to) 
+        {
+        }
 
         // proto finish must be called only before first String proto created
 
@@ -173,7 +173,7 @@ namespace io
 
         public virtual int compare(IoObject v)
         {
-			return uniqueId.CompareTo(v.uniqueId);
+            return uniqueId.CompareTo(v.uniqueId);
         }
 
         public static IoObject slotEquals(IoObject self, IoObject locals, IoObject message)
@@ -300,7 +300,7 @@ namespace io
 
         public static IoObject slotType(IoObject target, IoObject locals, IoObject message)
         {
-			return IoString.createObject(target.state, target.name);
+            return IoString.createObject(target.state, target.name);
         }
 
         public static IoObject slotEevalArg(IoObject target, IoObject locals, IoObject message)
@@ -428,9 +428,9 @@ namespace io
             IoMessage m = message as IoMessage;
             IoObject r = m.localsValueArgAt(locals, 0);
             bool condition = r != target.state.ioNil && r != target.state.ioFalse;
-	        int index = condition ? 1 : 2;
-	        if (index < m.args.Count) 
-		        return m.localsValueArgAt(locals, index);
+            int index = condition ? 1 : 2;
+            if (index < m.args.Count) 
+                return m.localsValueArgAt(locals, index);
             return condition ? target.state.ioTrue : target.state.ioFalse;
         }
 
@@ -653,27 +653,27 @@ done:
             return target;
         }
 
-	    public IoObject perform(IoObject target, IoObject locals, IoObject message)
-	    {
-	    	IoMessage msg = message as IoMessage;
+        public IoObject perform(IoObject target, IoObject locals, IoObject message)
+        {
+            IoMessage msg = message as IoMessage;
             IoObject context = null;
             IoObject slotValue = target.rawGetSlotContext(msg.messageName, out context);
             
             if (slotValue == null)
                 slotValue = target.clrGetSlot(msg);
-	    	
+            
             // not an 'else' check, since slotValue could have changed
             if (slotValue != null)
-	    	{
+            {
                 return slotValue.activate(slotValue, target, locals, msg, context);
-	    	}
+            }
 
-	    	if (target.isLocals)
-	    	{
-	    		return IoObject.slotLocalsForward(target, locals, message);
-	    	}
-	    	return target.forward(target, locals, message);
-	    }
+            if (target.isLocals)
+            {
+                return IoObject.slotLocalsForward(target, locals, message);
+            }
+            return target.forward(target, locals, message);
+        }
 
         public IoObject localsProto(IoState state)
         {
@@ -691,12 +691,12 @@ done:
             return obj;
         }
 
-		
+        
         public virtual IoObject activate(IoObject self, IoObject target, IoObject locals, IoMessage m, IoObject slotContext)
         {
-			return self.isActivatable ? self.activate(self, target, locals, m) : self;
+            return self.isActivatable ? self.activate(self, target, locals, m) : self;
         }
-		
+        
         public IoObject activate(IoObject self, IoObject target, IoObject locals, IoMessage m)
         {
             if (self.isActivatable)
@@ -705,12 +705,12 @@ done:
                 IoObject slotValue = self.rawGetSlotContext(self.state.activateMessage.messageName, out context);
                 if (slotValue != null)
                 {
-					// ?? мы шо в цикле ???
-					return activate(slotValue, target, locals, m, context); 
+                    // ?? мы шо в цикле ???
+                    return activate(slotValue, target, locals, m, context); 
                 }
-				return state.ioNil;
+                return state.ioNil;
             } else
-				return self;
+                return self;
         }
 
         public void createSlots()
@@ -729,12 +729,12 @@ done:
                 protos = new IoObjectList();
         }
 
-		public IoObject slotsBySymbol(IoString symbol)
-		{
+        public IoObject slotsBySymbol(IoString symbol)
+        {
             IoString s = this.state.symbols[symbol.value];
             if (s == null) return null;
             return slots[s] as IoObject;
-		}
+        }
 
         public IoObject rawGetSlot(IoString slot)
         {
@@ -786,19 +786,19 @@ done:
             return v;
         }
 
-		public virtual void print()
-		{
+        public virtual void print()
+        {
             //IoString type = this.slots["type"] as IoString;
-			//if (type == null)
-			//		type = (this.rawGetSlot(state.typeMessage.messageName) as IoCFunction).func(this, this, this) as IoString;
+            //if (type == null)
+            //        type = (this.rawGetSlot(state.typeMessage.messageName) as IoCFunction).func(this, this, this) as IoString;
             //string printedName = type == null ? ToString() : type.value;
-			Console.Write(this);
-		}
+            Console.Write(this);
+        }
 
-		public override string ToString()
-		{
-			return name + "+" + uniqueId;
-		}
-	}
+        public override string ToString()
+        {
+            return name + "+" + uniqueId;
+        }
+    }
 
 }

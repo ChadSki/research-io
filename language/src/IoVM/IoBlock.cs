@@ -44,7 +44,7 @@ namespace io
                 new IoCFunction("code", new IoMethodFunc(IoBlock.slotCode)),
                 new IoCFunction("block", new IoMethodFunc(IoBlock.slotBlock)),
                 new IoCFunction("method", new IoMethodFunc(IoBlock.slotMethod)),
-    	    };
+            };
 
             pro.addTaglessMethodTable(state, methodTable);
             return pro;
@@ -52,8 +52,8 @@ namespace io
 
         public override void cloneSpecific(IoObject _from, IoObject _to)
         {
-			IoBlock to = _to as IoBlock;
-			IoBlock from = _from as IoBlock;
+            IoBlock to = _to as IoBlock;
+            IoBlock from = _from as IoBlock;
             to.isActivatable = from.isActivatable;
             to.containedMessage = from.containedMessage;
             to.argNames = new IoObjectList();
@@ -64,23 +64,23 @@ namespace io
         public new static IoObject slotMethod(IoObject target, IoObject locals, IoObject message)
         {
             IoState state = target.state;
-	        IoBlock self = IoBlock.createObject(state);
+            IoBlock self = IoBlock.createObject(state);
             IoMessage m = message as IoMessage;
-	        int nargs = m.args.Count;
-	        IoMessage lastArgAsMessage = (nargs > 0) ? m.rawArgAt(nargs - 1) : state.nilMessage;
-	        int i;
+            int nargs = m.args.Count;
+            IoMessage lastArgAsMessage = (nargs > 0) ? m.rawArgAt(nargs - 1) : state.nilMessage;
+            int i;
 
             self.containedMessage = lastArgAsMessage;
             self.isActivatable = true;
 
-	        for (i = 0; i < nargs - 1; i ++)
-	        {
-		        IoMessage argMessage = m.rawArgAt(i);
-		        IoString name = argMessage.messageName;
+            for (i = 0; i < nargs - 1; i ++)
+            {
+                IoMessage argMessage = m.rawArgAt(i);
+                IoString name = argMessage.messageName;
                 self.argNames.Add(name);
-	        }
+            }
 
-	        return self;
+            return self;
         }
 
         public new static IoObject slotBlock(IoObject target, IoObject locals, IoObject m)
@@ -116,7 +116,7 @@ namespace io
 
         public static IoObject slotCall(IoObject target, IoObject locals, IoObject message)
         {
-			return target.activate(target, locals, locals, message as IoMessage, locals);
+            return target.activate(target, locals, locals, message as IoMessage, locals);
         }
 
         // Call Public Raw Methods

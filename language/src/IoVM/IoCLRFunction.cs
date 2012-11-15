@@ -49,7 +49,7 @@ namespace io
             //pro.protos.Add(state.protoWithInitFunc("Object"));
 
             IoCFunction[] methodTable = new IoCFunction[] {
-			};
+            };
 
             pro.addTaglessMethodTable(state, methodTable);
             return pro;

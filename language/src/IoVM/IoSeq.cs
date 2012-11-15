@@ -11,11 +11,11 @@ namespace io
 
         public char[] asCharArray { get { return value.ToCharArray(); } }
 
-		public new static IoString createProto(IoState state)
-		{
-			IoString s = new IoString();
-			return s.proto(state) as IoString;
-		}
+        public new static IoString createProto(IoState state)
+        {
+            IoString s = new IoString();
+            return s.proto(state) as IoString;
+        }
 
         public new static IoString createObject(IoState state)
         {
@@ -47,25 +47,25 @@ namespace io
         }
 
         public override IoObject proto(IoState state)
-		{
-			IoString pro = new IoString();
+        {
+            IoString pro = new IoString();
             pro.state = state;
-		//	pro.tag.cloneFunc = new IoTagCloneFunc(this.clone);
+        //    pro.tag.cloneFunc = new IoTagCloneFunc(this.clone);
         //    pro.tag.compareFunc = new IoTagCompareFunc(this.compare);
             pro.createSlots();
             pro.createProtos();
             state.registerProtoWithFunc(name, new IoStateProto(name, pro, new IoStateProtoFunc(this.proto)));
-			pro.protos.Add(state.protoWithInitFunc("Object"));
+            pro.protos.Add(state.protoWithInitFunc("Object"));
 
             IoCFunction[] methodTable = new IoCFunction[] {
                 new IoCFunction("appendStr", new IoMethodFunc(IoString.slotAppendStr)),
                 new IoCFunction("at", new IoMethodFunc(IoString.slotAt)),
                 new IoCFunction("reverse", new IoMethodFunc(IoString.slotReverse)),
-			};
+            };
 
-			pro.addTaglessMethodTable(state, methodTable);
-			return pro;
-		}
+            pro.addTaglessMethodTable(state, methodTable);
+            return pro;
+        }
 
         public static IoObject slotAppendStr(IoObject target, IoObject locals, IoObject message)
         {
@@ -97,21 +97,21 @@ namespace io
             return res;
         }
 
-		public override IoObject clone(IoState state)
-		{
-			IoString proto = state.protoWithInitFunc(name) as IoString;
-			IoString result = new IoString();
-			result.state = state;
+        public override IoObject clone(IoState state)
+        {
+            IoString proto = state.protoWithInitFunc(name) as IoString;
+            IoString result = new IoString();
+            result.state = state;
             result.value = proto.value;
-			result.createProtos();
-			result.createSlots();
-			result.protos.Add(proto);
-			return result;
-		}
+            result.createProtos();
+            result.createSlots();
+            result.protos.Add(proto);
+            return result;
+        }
 
         public override int compare(IoObject v)
         {
-			if (v is IoString) return this.value.CompareTo((v as IoString).value);
+            if (v is IoString) return this.value.CompareTo((v as IoString).value);
             return base.compare(v);
         }
 

@@ -43,11 +43,11 @@ namespace io
             pro.createProtos();
             pro.isActivatable = true;
             state.registerProtoWithFunc(pro.name, new IoStateProto(pro.name, pro, new IoStateProtoFunc(pro.proto)));
-			pro.protos.Add(state.protoWithInitFunc("Object"));
+            pro.protos.Add(state.protoWithInitFunc("Object"));
 
             IoCFunction[] methodTable = new IoCFunction[] {
-				new IoCFunction("type", new IoMethodFunc(IoObject.slotType))
-			};
+                new IoCFunction("type", new IoMethodFunc(IoObject.slotType))
+            };
 
             pro.addTaglessMethodTable(state, methodTable);
             return pro;
@@ -123,11 +123,11 @@ namespace io
 
         public override string ToString()
         {
-			if (clrInstance == null) {
-				if (clrType == null) return name;
-				return clrType.ToString();
-			}
-			return clrInstance.ToString();
+            if (clrInstance == null) {
+                if (clrType == null) return name;
+                return clrType.ToString();
+            }
+            return clrInstance.ToString();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace io {
 
     public class IoNumber : IoObject
     {
- 		public override string name { get { return "Number"; } }
+         public override string name { get { return "Number"; } }
         public object value
         {
             get
@@ -26,23 +26,23 @@ namespace io {
         public bool isInteger = true;
         public int longValue;
 
-		public new static IoNumber createProto(IoState state)
-		{
-			IoNumber number = new IoNumber();
-			return number.proto(state) as IoNumber;
-		}
+        public new static IoNumber createProto(IoState state)
+        {
+            IoNumber number = new IoNumber();
+            return number.proto(state) as IoNumber;
+        }
 
-		public override IoObject proto(IoState state)
-		{
-			IoNumber pro = new IoNumber();
-			pro.state = state;
+        public override IoObject proto(IoState state)
+        {
+            IoNumber pro = new IoNumber();
+            pro.state = state;
             pro.createSlots();
             pro.createProtos();
             pro.doubleValue = 0;
             pro.longValue = 0;
             pro.isInteger = true;
             state.registerProtoWithFunc(name, new IoStateProto(pro.name, pro, new IoStateProtoFunc(pro.proto)));
-			pro.protos.Add(state.protoWithInitFunc("Object"));
+            pro.protos.Add(state.protoWithInitFunc("Object"));
 
             IoCFunction[] methodTable = new IoCFunction[] {
                 new IoCFunction("asNumber", new IoMethodFunc(IoNumber.slotAsNumber)),
@@ -62,14 +62,14 @@ namespace io {
 //                new IoCFunction("asString", new IoMethodFunc(this.asString))
             };
 
-			pro.addTaglessMethodTable(state, methodTable);
-			return pro;
-		}
+            pro.addTaglessMethodTable(state, methodTable);
+            return pro;
+        }
 
         public static IoNumber newWithDouble(IoState state, double n)
         {
-			IoNumber fab = new IoNumber();
-			IoNumber num = state.protoWithInitFunc(fab.name) as IoNumber;
+            IoNumber fab = new IoNumber();
+            IoNumber num = state.protoWithInitFunc(fab.name) as IoNumber;
             num = num.clone(state) as IoNumber;
             num.isInteger = false;
             num.doubleValue = n;
@@ -85,19 +85,19 @@ namespace io {
                 num.longValue = Convert.ToInt32(n);
                 num.isInteger = true;
             }
-			return num;
+            return num;
         }
 
-		public override int GetHashCode()
-		{
-			return Convert.ToInt32(uniqueIdCounter);
-		}
+        public override int GetHashCode()
+        {
+            return Convert.ToInt32(uniqueIdCounter);
+        }
 
-		public override string ToString()
-		{
-			return isInteger ? longValue.ToString(CultureInfo.InvariantCulture)
+        public override string ToString()
+        {
+            return isInteger ? longValue.ToString(CultureInfo.InvariantCulture)
                 : doubleValue.ToString("G",CultureInfo.InvariantCulture);
-		}
+        }
 
         public override int compare(IoObject v)
         {
@@ -150,7 +150,7 @@ namespace io {
         {
             IoNumber other = (message as IoMessage).localsNumberArgAt(locals, 0);
             IoNumber self = target as IoNumber;
-			if (other == null) return self;
+            if (other == null) return self;
             return IoNumber.newWithDouble(target.state,
                 (self.isInteger ? self.longValue : self.doubleValue) +
                 (other.isInteger ? other.longValue : other.doubleValue)
