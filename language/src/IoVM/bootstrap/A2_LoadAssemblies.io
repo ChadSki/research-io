@@ -14,5 +14,3 @@ setSlot("button", Button new)
 button set_Text("MyButton")
 button set_Location(Point new (10,10))
 form get_Controls Add(button)
-
-Message shuffleOff
