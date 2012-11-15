@@ -14,119 +14,119 @@ namespace io {
         public IoObject slotContext;
     }
 
-	public class IoState {
+    public class IoState {
 
         public List<IEnumerator> contextList = new List<IEnumerator>();
 
         public Dictionary<string, IoStateProto> primitives = new Dictionary<string, IoStateProto>();
         public Dictionary<string, IoString> symbols = new Dictionary<string, IoString>();
 
-		// coroutines
-		public IoObject objectProto;
+        // coroutines
+        public IoObject objectProto;
         public IoCLR clrProto;
 
-		// quick access objects
-		public IoString activateSymbol;
+        // quick access objects
+        public IoString activateSymbol;
         public IoString callSymbol;
         public IoString forwardSymbol;
         public IoString noShufflingSymbol;
-		public IoString opShuffleSymbol;
-		public IoString semicolonSymbol;
-		public IoString selfSymbol;
-		public IoString setSlotSymbol;
-		public IoString setSlotWithTypeSymbol;
-		public IoString stackSizeSymbol;
-		public IoString typeSymbol;
+        public IoString opShuffleSymbol;
+        public IoString semicolonSymbol;
+        public IoString selfSymbol;
+        public IoString setSlotSymbol;
+        public IoString setSlotWithTypeSymbol;
+        public IoString stackSizeSymbol;
+        public IoString typeSymbol;
 
-		public IoString updateSlotSymbol;
-		public IoObject setSlotBlock;
-		public IoObject localsUpdateSlotCFunc;
-		public IoObject localsProto;
+        public IoString updateSlotSymbol;
+        public IoObject setSlotBlock;
+        public IoObject localsUpdateSlotCFunc;
+        public IoObject localsProto;
 
-		public IoMessage asStringMessage;
-		public IoMessage collectedLinkMessage;
-		public IoMessage compareMessage;
-		public IoMessage initMessage;
+        public IoMessage asStringMessage;
+        public IoMessage collectedLinkMessage;
+        public IoMessage compareMessage;
+        public IoMessage initMessage;
         public IoMessage selfMessage;
-		public IoMessage mainMessage;
-		public IoMessage nilMessage;
+        public IoMessage mainMessage;
+        public IoMessage nilMessage;
         public IoMessage forwardMessage;
         public IoMessage activateMessage;
         public IoMessage opShuffleMessage;
-		public IoMessage printMessage;
-		public IoMessage referenceIdForObjectMessage;
-		public IoMessage objectForReferenceIdMessage;
-		public IoMessage runMessage;
-		public IoMessage willFreeMessage;
-		public IoMessage yieldMessage;
-		public IoMessage typeMessage;
-		
-		public IoObjectList cachedNumbers;
+        public IoMessage printMessage;
+        public IoMessage referenceIdForObjectMessage;
+        public IoMessage objectForReferenceIdMessage;
+        public IoMessage runMessage;
+        public IoMessage willFreeMessage;
+        public IoMessage yieldMessage;
+        public IoMessage typeMessage;
+        
+        public IoObjectList cachedNumbers;
 
-		// singletons
-		public IoObject ioNil;
-		public IoObject ioTrue;
-		public IoObject ioFalse;
+        // singletons
+        public IoObject ioNil;
+        public IoObject ioTrue;
+        public IoObject ioFalse;
 
-		// Flow control singletons
-		public IoObject ioNormal;
-		public IoObject ioBreak;
-		public IoObject ioContinue;
-		public IoObject ioReturn;
-		public IoObject ioEol;
+        // Flow control singletons
+        public IoObject ioNormal;
+        public IoObject ioBreak;
+        public IoObject ioContinue;
+        public IoObject ioReturn;
+        public IoObject ioEol;
 
-		// execution context
-		public IoObject lobby;
-		public IoObject core;
+        // execution context
+        public IoObject lobby;
+        public IoObject core;
 
-		// current execution state
+        // current execution state
         public IoStopStatus stopStatus;
-		public object returnValue;
+        public object returnValue;
 
-		// debugger
-		public int debugOn;
-		public IoObject debugger;
-		public IoMessage vmWillSendMessage;
+        // debugger
+        public int debugOn;
+        public IoObject debugger;
+        public IoMessage vmWillSendMessage;
 
-		// SandBox limits
-		public int messageCountLimit;
-		public int messageCount;
-		public double timeLimit;
-		public double endTime;
+        // SandBox limits
+        public int messageCountLimit;
+        public int messageCount;
+        public double timeLimit;
+        public double endTime;
 
-		// tail calls
-		public IoMessage tailCallMessage;
+        // tail calls
+        public IoMessage tailCallMessage;
 
-		// exiting
-		public int shouldExit;
-		public int exitResult;
+        // exiting
+        public int shouldExit;
+        public int exitResult;
 
         public IoString IOSYMBOL(string name)
         {
             return IoString.createSymbolInMachine(this, name);
         }
 
-		public void registerProtoWithFunc(string name, IoStateProto stateProto)
-		{
-			primitives[name] = stateProto;
-		}
+        public void registerProtoWithFunc(string name, IoStateProto stateProto)
+        {
+            primitives[name] = stateProto;
+        }
 
-		public IoObject protoWithInitFunc(string name)
-		{
-			return primitives[name].proto;
-		}
+        public IoObject protoWithInitFunc(string name)
+        {
+            return primitives[name].proto;
+        }
 
         public void error(IoMessage m, string s)
         {
         }
 
-		public IoState()
-		{
+        public IoState()
+        {
             
 
-			objectProto = IoObject.createProto(this);
-			core = objectProto.clone(this);
-			lobby = objectProto.clone(this);
+            objectProto = IoObject.createProto(this);
+            core = objectProto.clone(this);
+            lobby = objectProto.clone(this);
 
             IoString strProto = IoString.createProto(this);
 
@@ -135,15 +135,15 @@ namespace io {
 
             objectProto.protoFinish(this);
 
-			IoMessage messageProto = IoMessage.createProto(this);
+            IoMessage messageProto = IoMessage.createProto(this);
 
             nilMessage = IoMessage.createObject(this) as IoMessage;
             nilMessage.cachedResult = ioNil;
             nilMessage.messageName = IOSYMBOL("nil");
 
             IoMap mapProto = IoMap.createProto(this);
-			IoNumber numProto = IoNumber.createProto(this);
-			IoCFunction cfProto = IoCFunction.createProto(this);
+            IoNumber numProto = IoNumber.createProto(this);
+            IoCFunction cfProto = IoCFunction.createProto(this);
             IoBlock blockProto = IoBlock.createProto(this);
             //IoCoroutine coroProto = IoCoroutine.createProto(this);
             //mainCoroutine = coroProto;
@@ -155,18 +155,18 @@ namespace io {
             IoCLRObject clrObjProto = IoCLRObject.createProto(this);
 
             IoObject protos = objectProto.clone(this);
-			protos.slots["Core"] = core;
-			protos.slots["Addons"] = null;
+            protos.slots["Core"] = core;
+            protos.slots["Addons"] = null;
 
-			lobby.slots["Lobby"] = lobby;
-			lobby.slots["Protos"] = protos;
+            lobby.slots["Lobby"] = lobby;
+            lobby.slots["Protos"] = protos;
 
-			core.slots["Object"] = objectProto;
-			core.slots["Map"] = mapProto;
+            core.slots["Object"] = objectProto;
+            core.slots["Map"] = mapProto;
            // core.slots["Coroutine"] = coroProto;
-			core.slots["Message"] = messageProto;
-			core.slots["CFunction"] = cfProto;
-			core.slots["Number"] = numProto;
+            core.slots["Message"] = messageProto;
+            core.slots["CFunction"] = cfProto;
+            core.slots["Number"] = numProto;
             core.slots["Block"] = blockProto;
             core.slots["Call"] = callProto;
             core.slots["Locals"] = localsProto = objectProto.localsProto(this);
@@ -175,8 +175,8 @@ namespace io {
             core.slots["CLR"] = clrProto;
             core.slots["CLRAssembly"] = asmProto;
             core.slots["CLRObject"] = clrObjProto;
-			
-			objectProto.protos.Add(lobby);
+            
+            objectProto.protos.Add(lobby);
             lobby.protos.Add(protos);
             protos.protos.Add(core);
 
@@ -188,8 +188,8 @@ namespace io {
             selfMessage = IoMessage.newWithName(this, IOSYMBOL("self"));
             opShuffleMessage = IoMessage.newWithName(this, IOSYMBOL("opShuffle"));
             mainMessage = IoMessage.newWithName(this, IOSYMBOL("main"));
-			typeMessage = IoMessage.newWithName(this, IOSYMBOL("type"));
-		}
+            typeMessage = IoMessage.newWithName(this, IOSYMBOL("type"));
+        }
 
       
 
@@ -241,39 +241,39 @@ namespace io {
             updateSlotSymbol = IOSYMBOL("updateSlot");
         }
 
-		public void setupSingletons()
-		{
-			ioNil = objectProto.clone(this);
+        public void setupSingletons()
+        {
+            ioNil = objectProto.clone(this);
             ioNil.slots["type"] = IOSYMBOL("nil");
-			core.slots["nil"] = ioNil;
-			
-			ioTrue = IoObject.createObject(this);
+            core.slots["nil"] = ioNil;
+            
+            ioTrue = IoObject.createObject(this);
             ioTrue.slots["type"] = IOSYMBOL("true");
-			core.slots["true"] = ioTrue;
+            core.slots["true"] = ioTrue;
 
-			ioFalse = IoObject.createObject(this);
+            ioFalse = IoObject.createObject(this);
             ioFalse.slots["type"] = IOSYMBOL("false");
-			core.slots["false"] = ioFalse;
-		}
+            core.slots["false"] = ioFalse;
+        }
 
         public void error(IoMessage self, string p, string p_3)
         {
         }
 
-		public IoObject onDoCStringWithLabel(IoObject target, string code, string label)
-		{
-			IoMessage msg = new IoMessage();
-			msg = msg.clone(this) as IoMessage;
-			msg = msg.newFromTextLabel(this, code, label);
-			return msg.localsPerformOn(target, target);
-		}
+        public IoObject onDoCStringWithLabel(IoObject target, string code, string label)
+        {
+            IoMessage msg = new IoMessage();
+            msg = msg.clone(this) as IoMessage;
+            msg = msg.newFromTextLabel(this, code, label);
+            return msg.localsPerformOn(target, target);
+        }
 
         public IoObject loadFile(string fileName)
         {
             StreamReader sr = new StreamReader(fileName);
-			IoObject result = null;
-			string s = sr.ReadToEnd();
-				result = onDoCStringWithLabel(lobby, s, fileName);
+            IoObject result = null;
+            string s = sr.ReadToEnd();
+                result = onDoCStringWithLabel(lobby, s, fileName);
             return result;
         }
 
@@ -303,9 +303,9 @@ namespace io {
             return result;
         }
 
-		public void prompt(IoState state)
-		{
-			IoObject result = null;
+        public void prompt(IoState state)
+        {
+            IoObject result = null;
             processBootstrap();
             while (true)
             {
@@ -320,7 +320,7 @@ namespace io {
                 Console.WriteLine();
 
             }
-		}
+        }
 
     }
 
